@@ -48,11 +48,7 @@ $(document).ready(function() {
         $("#info").show();
         $("#happybucket").show();
     });
-    $("#happybucket").mouseleave(function(){
-        $("#bucket").show();
-        $("#happybucket").hide();
-    });
-    //$("#happybucket").mousedown(excitedbucket);
+    $("#happybucket").mouseleave(bucketshow);
 
 // the burn button at the bottom
     $("#burn-list").on("click", function(){
@@ -108,6 +104,8 @@ function addemon(){
                 $(this).addClass('strikeout');
             }
         });
+//       $("#happybucket").unbind("mousedown");
+//        $("#happybucket").mousedown(excitedbucket);
         $("li").mousedown(function() {
             $("li").unbind("mouseleave");
             if ($(this).hasClass("highlit")) $(this).removeClass("highlit");
@@ -164,27 +162,34 @@ function selection(){
 // this is the functionallity for clicking bucket then clicking
 // a list item for removal - in progress
 /*function excitedbucket(){
-    $(this).unbind("mouseleave");
+    $("#happybucket").unbind("mouseleave");
     $("#happybucket").hide();
     $("#bucket").hide();
     $("#excitedbucket").show();
-    $("li").mouseenter(function(){
-        $(this).addClass("highlit");
-        $(".highlit").unbind("mousedown");
-        $(".highlit").mousedown(function(){
-            $(".highlit").remove();
-            $("#bucket").show();
-            $("#happybucket").hide();
-            $("#excitedbucket").hide();
-            $("li").unbind("mouseenter");
-        });
-    });
+    $("li").unbind("mouseleave");
     $("li").mouseleave(function(){
         $(".highlit").removeClass("highlit");
         $("body").mousedown(function(){
             $("#bucket").show();
             $("#happybucket").hide();
             $("#excitedbucket").hide();
+            $("li").unbind("mouseenter");
         });
     });
+    $("li").unbind("mouseenter");
+    $("li").mouseenter(function(){
+        $(this).addClass("highlit");
+        $(".highlit").unbind("mousedown");
+        $(".highlit").mousedown(function(){
+            $(".highlit").remove();
+            bucketshow();
+            $("li").unbind("mouseenter");
+        });
+    });
+    $("#happybucket").mouseleave("bucketshow");
 }*/
+function bucketshow(){
+        $("#bucket").show();
+        $("#happybucket").hide();
+        $("#excitedbucket").hide();
+    }
