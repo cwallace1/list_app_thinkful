@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>The Arsonist's Cookbook</title>
+    <link rel="stylesheet" type="text/css" href="main.css" />
+    <script src="http://code.jquery.com/jquery-1.10.2.js"></script>
+    <script src="http://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+</head>
+<body>
+    <div class="cont" id="top">
+        <h1>The Arsonist's Burn List</h1>
+        <h6>We All Need a List from Time to Time...</h6><br/>
+        <h6>Keep Track of Yours Here!</h6>
+        <div class="information" id="information">
+            <a href="#top"><p>1. Click and Drag to Reorder the Items<br/>
+                2. Double Click Item/Quantity to Change<br/>
+                3. Click the Flame to Check it Off<br/>
+                4. Click Bucket then Item to Remove It/
+                    Click Item then Bucket to Remove It<br/>
+                5.The Bucket Will Follow You<br/>
+                6. Burn Them All to Remove All Items<br/>
+                Note: New Items Always Go To the Top</p></a>
+        </div>
+        <div class="add-item">
+            <a id="add-it-on">Add to <br/>the Fire!</a><input type="text" id="item" name="Item" placeholder="Enter Item" autofocus /><input type="text" id="qty" name="Qty" placeholder="Qty" />
+        </div>
+        <ul>
+
+        </ul>
+        <div class="burn shake">
+            <a id="burn-list"><img src="flame.png" alt="HAHAHA!" /><img src="flame.png" alt="HAHAHA!" /><img src="flame.png" alt="HAHAHA!" /><img src="flame.png" alt="HAHAHA!" /><img src="flame.png" alt="HAHAHA!" /><img src="flame.png" alt="HAHAHA!" /><img src="flame.png" alt="HAHAHA!" /><font>Burn Them All!</font><img src="flame.png" alt="HAHAHA!" /><img src="flame.png" alt="HAHAHA!" /><img src="flame.png" alt="HAHAHA!" /><img src="flame.png" alt="HAHAHA!" /><img src="flame.png" alt="HAHAHA!" /><img src="flame.png" alt="HAHAHA!" /><img src="flame.png" alt="HAHAHA!" /></a>
+        </div>
+    </div>
+    <div class="sidebar">
+        <a href="#information"><img id="info" src="info.png" alt="I" /><img id="infolight" src="info-light.png" alt="I" /></a>
+        <img id="bucket" src="bucket.png" alt="Bucket" />
+        <img id="happybucket" src="bucket-happy.png" alt="Happy Bucket" />
+        <img id="excitedbucket" src="bucket-excited.png" alt="Excited Bucket" />
+    </div>
+    <script src="main.js" type="text/javascript"></script>
+</body>
+</html>
