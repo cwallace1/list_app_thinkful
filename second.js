@@ -2,6 +2,22 @@
 // this is the main container function that executes when the page is loaded.
 $(document).ready(function() {
 
+// this is where the script checks if a list item is being clicked or
+// dragged, and reacts accordingly - in progress
+/*    var isDragging = false;
+    $("li").mousedown(function() {
+        $(window).mousemove(function() {
+            isDragging = true;
+            $(window).unbind("mousemove");
+        });
+    })
+    .mouseup(function() {
+        var wasDragging = isDragging;
+        isDragging = false;
+        $(window).unbind("mousemove");
+    });*/
+$("ul").delegate("li", "mousedown", (function(){alert("yoooooo");}));
+
 // the sorting magic happens here
     $("ul").sortable();
 
@@ -11,15 +27,27 @@ $(document).ready(function() {
         if (e.which == 13) addemon();
     });
 
+// the info button with some code to make sure
+// the buckets arent messing up
+    $("#info").mouseenter(function(){
+        $("#info").hide();
+        $("#infolight").show();
+        bucketshow();
+    });
+    $("#infolight").unbind("mouseleave");
+    $("#infolight").mouseleave(function(){
+        $("#info").show();
+        $("#infolight").hide();
+    });
+
 // the buckets with some code to make sure the
 // infos arent messing up
     $("#bucket").mouseenter(function(){
-        $("#bucket").hide();
+        $("#bucket").attr("src","happybucket.png");
         $("#infolight").hide();
         $("#info").show();
-        $("#happybucket").show();
     });
-    $("#happybucket").mouseleave(bucketshow);
+    $("#bucket").mouseleave(bucketshow);
 
 // the burn button at the bottom
     $("#burn-list").on("click", function(){
@@ -31,14 +59,28 @@ $(document).ready(function() {
 // or when the add button is clicked
 function addemon(){
 
+
 // start by setting variables equal to the input fields and start
 // running the tests to make sure proper values are being passed
     var item = $("#item").val(),
     qty = $("#qty").val(),
     qtyCheck = $.isNumeric(qty);
     if (item === null || item === ""){
-        return;
+        alert("Please Enter Something Here Before Adding to the Burn Pile.");
+        $("#item").focus();
     }
+    else if (qty === null) {
+        alert("Please Enter a Quantinty to Burn.");
+        $("#qty").focus();
+}
+    else if (qtyCheck !== true) {
+        alert("Please Enter a Number.");
+        $("#qty").focus(selection());
+    }
+    else if (qty.length>4) {
+        alert("Do You Really Need that Many?");
+        $("#qty").focus(selection());}
+
 // if the values from the input fields pass the checks add
 // a new item to the top of the list with the values entered
     else {
@@ -62,9 +104,8 @@ function addemon(){
                 $(this).addClass('strikeout');
             }
         });
-       $("#happybucket").unbind("mousedown");
-        $("#happybucket").mousedown(excitedbucket);
-/*        $("li").mousedown(function() {
+        $("#bucket").mousedown(excitedbucket);
+        $("li").mousedown(function() {
             $("li").unbind("mouseleave");
             if ($(this).hasClass("highlit")) $(this).removeClass("highlit");
             else {
@@ -72,55 +113,59 @@ function addemon(){
                 $(this).addClass("highlit");
 
 // this is where a highlighted item can be removed by clicking the bucket
-                $("#happybucket").mouseup(function(){
+                $("#bucket").mouseup(function(){
                     $(".highlit").remove();
-                    $("#bucket").hide();
-                    $("#happybucket").show();
-                    $("#excitedbucket").hide();
+                    $("#bucket").attr("src","happybucket.png");
                 });
             }
-            $("#bucket").show();
-            $("#happybucket").hide();
-            $("#excitedbucket").hide();
+            bucketshow();
         });
-*/
+
+// unbinds all previous event watchers on the text fields, then
+// creates new ones that allow users to change values
+        $(".item").unbind("dblclick");
+        $(".item").dblclick(changemeitem);
+        $(".qty").unbind("dblclick");
+        $(".qty").dblclick(changemeqty);
+    }
 
 // prevents defaulting to the top of the page when an item is
 // stricken out
     $("a.doesnothing").click(function(event){event.preventDefault();});
 }
 
+// this is the function to actually change the item
+function changemeitem() {
+    var change = prompt("What Should this Say?");
+     if (change === null || change === "") alert("Try Typing Something In Next Time.");
+     else $(this).text(change);
+}
+
+// this is the function to actually change the quantity
+function changemeqty() {
+    var change = prompt("How Many did You Mean?"),
+        qtyCheck = $.isNumeric(change);
+    if (change === null || qtyCheck !== true) alert("Maybe if You Used a Number?");
+   else $(this).text(change);
+}
+
+// little guy to select the quantity field during the value test
+function selection(){
+    $("#qty").select();
+}
+
 // this is the functionallity for clicking bucket then clicking
 // a list item for removal - in progress
 function excitedbucket(){
-    $("#happybucket").unbind("mouseleave");
-    $("#happybucket").hide();
-    $("#bucket").hide();
-    $("#excitedbucket").show();
-    $("li").unbind("mouseleave");
-    $("li").mouseleave(function(){
-        $(".highlit").removeClass("highlit");
-        $("body").mousedown(function(){
-            $("#bucket").show();
-            $("#happybucket").hide();
-            $("#excitedbucket").hide();
-            $("li").unbind("mouseenter");
-        });
+    $("#bucket").unbind("mouseleave");
+    $("body").addClass("bucket-is-excited");
+    $("#bucket").attr("src", "excitedbucket.png");
+    $("body").mousedown(function(){
+        bucketshow();
+        $(".bucket-is-excited").removeClass("bucket-is-excited");
     });
-    $("li").unbind("mouseenter");
-    $("li").mouseenter(function(){
-        $(this).addClass("highlit");
-        $(".highlit").unbind("mousedown");
-        $(".highlit").mousedown(function(){
-            $(".highlit").remove();
-            bucketshow();
-            $("li").unbind("mouseenter");
-        });
-    });
-    $("#happybucket").mouseleave("bucketshow");
+
 }
 function bucketshow(){
-        $("#bucket").show();
-        $("#happybucket").hide();
-        $("#excitedbucket").hide();
+        $("#bucket").attr("src", "bucket.png");
     }

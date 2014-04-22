@@ -8,6 +8,7 @@
     <script src="http://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
 </head>
 <body>
+    <div class="alluvit">
     <div class="cont" id="top">
         <h1>The Arsonist's Burn List</h1>
         <h6>We All Need a List from Time to Time...</h6><br/>
@@ -15,28 +16,33 @@
         <div class="information" id="information">
             <a href="#top"><p>1. Click and Drag to Reorder the Items<br/>
                 2. Double Click Item/Quantity to Change<br/>
-                3. Click the Flame to Check it Off<br/>
-                4. Click Item then Bucket to Remove It<br/>
-                5.The Bucket Will Follow You<br/>
-                6. Burn Them All to Remove All Items<br/>
+                3. Click the Flame to Check/Uncheck<br/>
+                4. Click Item then Bucket, Or Bucket<br/>
+                then Item to Douse Its Flame<br/>
+                5.The Bucket WILL Follow You<br/>
+                6. "Burn Them All" to Quench All Items<br/>
                 Note: New Items Always Go To the Top</p></a>
         </div>
         <div class="add-item">
             <a id="add-it-on">Add to <br/>the Fire!</a><input type="text" id="item" name="Item" placeholder="Enter Item" autofocus /><input type="text" id="qty" name="Qty" placeholder="Qty" />
         </div>
         <ul>
-
+<!--<li><div><a href="#" class="doesnothing"><img src="tiny-flame.png" alt="" class="shiver" /><font class="item">item1</font><font class="qty">qty</font></a></div></li>
+<li><div><a href="#" class="doesnothing"><img src="tiny-flame.png" alt="" class="shiver" /><font class="item">item2</font><font class="qty">qty</font></a></div></li>
+<li><div><a href="#" class="doesnothing"><img src="tiny-flame.png" alt="" class="shiver" /><font class="item">item3</font><font class="qty">qty</font></a></div></li>
+<li><div><a href="#" class="doesnothing"><img src="tiny-flame.png" alt="" class="shiver" /><font class="item">item4</font><font class="qty">qty</font></a></div></li>
+<li><div><a href="#" class="doesnothing"><img src="tiny-flame.png" alt="" class="shiver" /><font class="item">item5</font><font class="qty">qty</font></a></div></li>-->
         </ul>
-        <div class="burn shake">
+        <div class="burn shiver">
             <a id="burn-list"><img src="flame.png" alt="HAHAHA!" /><img src="flame.png" alt="HAHAHA!" /><img src="flame.png" alt="HAHAHA!" /><img src="flame.png" alt="HAHAHA!" /><img src="flame.png" alt="HAHAHA!" /><img src="flame.png" alt="HAHAHA!" /><img src="flame.png" alt="HAHAHA!" /><font>Burn Them All!</font><img src="flame.png" alt="HAHAHA!" /><img src="flame.png" alt="HAHAHA!" /><img src="flame.png" alt="HAHAHA!" /><img src="flame.png" alt="HAHAHA!" /><img src="flame.png" alt="HAHAHA!" /><img src="flame.png" alt="HAHAHA!" /><img src="flame.png" alt="HAHAHA!" /></a>
         </div>
     </div>
-    <div class="sidebar">
-        <a href="#information"><img id="info" src="info.png" alt="I" /><img id="infolight" src="info-light.png" alt="I" /></a>
-        <img id="bucket" src="bucket.png" alt="Bucket" />
-        <img id="happybucket" src="bucket-happy.png" alt="Happy Bucket" />
-        <img id="excitedbucket" src="bucket-excited.png" alt="Excited Bucket" />
     </div>
+    <div class="sidebar">
+        <a href="#information"><img id="info" src="info.png" alt="I" /></a>
+        <img id="bucket" src="bucket.png" alt="Bucket" />
+    </div>
+
     <script src="main.js" type="text/javascript"></script>
 </body>
 </html>

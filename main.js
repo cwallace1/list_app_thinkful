@@ -17,6 +17,15 @@ $(document).ready(function() {
         $(window).unbind("mousemove");
     });*/
 
+/* delete these 3 when testing placeholders are removed
+    stricken();
+    anchorDefault();
+    dblClicking();*/
+
+// sets the bucket and info actions when the page is done loading
+    delegation();
+    infos();
+
 // the sorting magic happens here
     $("ul").sortable();
 
@@ -26,40 +35,31 @@ $(document).ready(function() {
         if (e.which == 13) addemon();
     });
 
-// the info button with some code to make sure
-// the buckets arent messing up
-    $("#info").mouseenter(function(){
-        $("#info").hide();
-        $("#infolight").show();
-        $("#bucket").show();
-        $("#happybucket").hide();
-    });
-    $("#infolight").unbind("mouseleave");
-    $("#infolight").mouseleave(function(){
-        $("#info").show();
-        $("#infolight").hide();
-    });
-
-// the buckets with some code to make sure the
-// infos arent messing up
-    $("#bucket").mouseenter(function(){
-        $("#bucket").hide();
-        $("#infolight").hide();
-        $("#info").show();
-        $("#happybucket").show();
-    });
-    $("#happybucket").mouseleave(bucketshow);
-
 // the burn button at the bottom
     $("#burn-list").on("click", function(){
         $("li").remove();
     });
+
+
+// highlights or unhighlights the items as they are
+// clicked and presets the flag for bucket use
+    $("ul").delegate("li", "mousedown", (function() {
+        $("li").unbind("mouseleave");
+        if ($(this).hasClass("highlit")) {
+            $(this).removeClass("highlit");
+            flag = false;
+        }
+        else {
+            $(".highlit").removeClass("highlit");
+            $(this).addClass("highlit");
+            flag = true;
+        }
+    }));
 });
 
 // this is the script that runs when enter is pressed
 // or when the add button is clicked
 function addemon(){
-
 // start by setting variables equal to the input fields and start
 // running the tests to make sure proper values are being passed
     var item = $("#item").val(),
@@ -73,7 +73,7 @@ function addemon(){
         alert("Please Enter a Quantinty to Burn.");
         $("#qty").focus();
 }
-    else if (qtyCheck !== true) {
+    else if (!qtyCheck) {
         alert("Please Enter a Number.");
         $("#qty").focus(selection());
     }
@@ -81,7 +81,7 @@ function addemon(){
         alert("Do You Really Need that Many?");
         $("#qty").focus(selection());}
 
-// if the values from the input fields pass the checks add
+// if the values from the input fields pass the checks, adds
 // a new item to the top of the list with the values entered
     else {
         $("ul").prepend('<li><div><a href="#" class="doesnothing"><img src="tiny-flame.png" alt="" class="shiver" /><font class="item">'+item+'</font><font class="qty">'+qty+'</font></a></div></li>');
@@ -91,52 +91,12 @@ function addemon(){
         $("#item").val("");
         $("#qty").val("");
         $("#item").focus();
-
-// unbinds all previous event watchers on the list items, then
-// creates new ones that strikethrough and unstrike items
-// and highlights or unhighlights them
-        $("img.shiver").unbind("mousedown");
-        $("li").unbind("mousedown");
-        $("img.shiver").mousedown(function(){
-            if($(this).hasClass('strikeout')){
-                $(this).removeClass('strikeout');
-            }else{
-                $(this).addClass('strikeout');
-            }
-        });
-//       $("#happybucket").unbind("mousedown");
-//        $("#happybucket").mousedown(excitedbucket);
-        $("li").mousedown(function() {
-            $("li").unbind("mouseleave");
-            if ($(this).hasClass("highlit")) $(this).removeClass("highlit");
-            else {
-                $(".highlit").removeClass("highlit");
-                $(this).addClass("highlit");
-
-// this is where a highlighted item can be removed by clicking the bucket
-                $("#happybucket").mouseup(function(){
-                    $(".highlit").remove();
-                    $("#bucket").hide();
-                    $("#happybucket").show();
-                    $("#excitedbucket").hide();
-                });
-            }
-            $("#bucket").show();
-            $("#happybucket").hide();
-            $("#excitedbucket").hide();
-        });
-
-// unbinds all previous event watchers on the text fields, then
-// creates new ones that allow users to change values
-        $(".item").unbind("dblclick");
-        $(".item").dblclick(changemeitem);
-        $(".qty").unbind("dblclick");
-        $(".qty").dblclick(changemeqty);
     }
-
-// prevents defaulting to the top of the page when an item is
-// stricken out
-    $("a.doesnothing").click(function(event){event.preventDefault();});
+// call in these assorted functions when a new item is added
+// to refresh eventHandlers
+    stricken();
+    anchorDefault();
+    dblClicking();
 }
 
 // this is the function to actually change the item
@@ -150,7 +110,8 @@ function changemeitem() {
 function changemeqty() {
     var change = prompt("How Many did You Mean?"),
         qtyCheck = $.isNumeric(change);
-    if (change === null || qtyCheck !== true) alert("Maybe if You Used a Number?");
+   if (change === null || change === "") alert("Try Typing Something In Next Time.");
+   else if (!qtyCheck) alert("Maybe if You Used a Number?");
    else $(this).text(change);
 }
 
@@ -159,37 +120,102 @@ function selection(){
     $("#qty").select();
 }
 
-// this is the functionallity for clicking bucket then clicking
-// a list item for removal - in progress
-/*function excitedbucket(){
-    $("#happybucket").unbind("mouseleave");
-    $("#happybucket").hide();
-    $("#bucket").hide();
-    $("#excitedbucket").show();
-    $("li").unbind("mouseleave");
-    $("li").mouseleave(function(){
-        $(".highlit").removeClass("highlit");
-        $("body").mousedown(function(){
-            $("#bucket").show();
-            $("#happybucket").hide();
-            $("#excitedbucket").hide();
-            $("li").unbind("mouseenter");
-        });
-    });
-    $("li").unbind("mouseenter");
-    $("li").mouseenter(function(){
-        $(this).addClass("highlit");
-        $(".highlit").unbind("mousedown");
-        $(".highlit").mousedown(function(){
-            $(".highlit").remove();
-            bucketshow();
-            $("li").unbind("mouseenter");
-        });
-    });
-    $("#happybucket").mouseleave("bucketshow");
-}*/
-function bucketshow(){
-        $("#bucket").show();
-        $("#happybucket").hide();
-        $("#excitedbucket").hide();
+// bucket getting happy on hover
+function bucketAction(){
+    if (!exciteFlag) {
+        $("#bucket").attr("src", "happybucket.png");
     }
+}
+
+function bucketUnaction(){
+    if (!exciteFlag) {
+        $("#bucket").attr("src", "bucket.png");
+    }
+}
+
+// this will force excitement!
+function bucketClicked(){
+    $("#bucket").attr("src", "excitedbucket.png");
+// this is where an item can be removed after clicking the bucket
+    if (!flag){
+        $("body").addClass("excitement");
+        exciteFlag = true;
+        $("li").addClass("half-highlit");
+        $("body").unbind();
+        $("body").delegate(".alluvit","mouseup",function(){
+            if ($("body").hasClass("excitement") ){
+                $(".highlit").remove();
+                $("li").removeClass("half-highlit");
+                $(".excitement").removeClass("excitement");
+                flag = false;
+                exciteFlag = false;
+                bucketUnaction();
+                return;
+            }
+        });
+    }
+// this is where a highlighted item can be removed by clicking the bucket
+    else {
+        $("#bucket").unbind("mouseup");
+        $("#bucket").mouseup(function(){
+            $(".highlit").remove();
+            bucketAction();
+            flag = false;
+            exciteFlag = false;
+            delegation();
+            return;
+        });
+    }
+}
+
+// info button lighting up on hover
+function infoAction(){
+    $("#info").attr("src","info-light.png");
+}
+
+function infoUnaction(){
+    $("#info").attr("src","info.png");
+}
+
+// prevents defaulting to the top of the page when an item is
+// stricken out
+function anchorDefault(){
+    $("a.doesnothing").unbind("click");
+    $("a.doesnothing").click(function(event){event.preventDefault();});
+}
+
+// strikes through and unstrikes items as flame is
+// clicked
+function stricken(){
+    $("img.shiver").unbind("mousedown");
+    $("img.shiver").mousedown(function(){
+        if($(this).hasClass('strikeout')){
+            $(this).removeClass('strikeout');
+        }else{
+            $(this).addClass('strikeout');
+        }
+    });
+}
+
+// unbinds all previous event watchers on the text fields, then
+// creates new ones that allow users to change values
+function dblClicking(){
+    $(".item").unbind("dblclick");
+    $(".item").dblclick(changemeitem);
+    $(".qty").unbind("dblclick");
+    $(".qty").dblclick(changemeqty);
+}
+function delegation(){
+    $("#bucket").unbind();
+    $(".sidebar").delegate("#bucket", "mousedown", (bucketClicked));
+    $(".sidebar").delegate("#bucket", "mouseenter", (bucketAction));
+    $(".sidebar").delegate("#bucket", "mouseleave", (bucketUnaction));
+}
+function infos(){
+    $("#info").unbind();
+    $(".sidebar").delegate("#info", "mouseenter", (infoAction));
+    $(".sidebar").delegate("#info", "mouseleave", (infoUnaction));
+}
+// variables for bucket states
+var flag = false,
+    exciteFlag = false;

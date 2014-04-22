@@ -15,6 +15,9 @@ body {
     background-repeat: repeat-x;
     background-color: #000000;
 }
+.alluvit {
+    width: 100%;
+}
 .cont {
     margin-top: 120px;
     display: inline-block;
@@ -36,10 +39,6 @@ p {
 a {
     text-decoration: none;
     border: none;
-}
-.information p {
-    font-size: 22px;
-    line-height: 32px;
 }
 .sidebar {
     position: fixed;
@@ -146,7 +145,7 @@ li font+font {
     margin: 0 10px;
     z-index: 1;
 }
-.shake:hover, .add-item a:hover, .sidebar img:hover, img.shiver:hover {
+.shiver:hover, .add-item a:hover, .sidebar img:hover, img.shiver:hover {
     cursor: pointer;
 }
 @-webkit-keyframes shiver-left {
@@ -197,7 +196,7 @@ li font+font {
     20% { -webkit-transform: translate(2px, 2px) rotate(0deg); }
     10% { -webkit-transform: translate(1px, -2px) rotate(-1deg); }
 }
-.shake:hover a img:nth-child(2n+1) {
+.shiver:hover a img:nth-child(2n+1) {
     animation-name: shiver-left;
     animation-duration: 0.8s;
     transform-origin:50% 50%;
@@ -209,7 +208,7 @@ li font+font {
     -webkit-animation-iteration-count: infinite;
     -webkit-animation-timing-function: linear;
 }
-.shake:hover a img:nth-child(2n+0), img.shiver:hover {
+.shiver:hover a img:nth-child(2n+0), img.shiver:hover{
     animation-name: shiver-right;
     animation-duration: 0.8s;
     transform-origin:50% 50%;
@@ -221,9 +220,14 @@ li font+font {
     -webkit-animation-iteration-count: infinite;
     -webkit-animation-timing-function: linear;
 }
-.shake:hover font {
+
+.shiver:hover font {
     color: #eedd22;
     font-weight: 700;
+}
+.burn:hover {
+    border: solid 1px #ee4819;
+    border-radius: 5px;
 }
 .information p {
     width: 515px;
@@ -234,6 +238,8 @@ li font+font {
     padding: 20px;
     background: #000000;
     z-index: 3;
+    font-size: 22px;
+    line-height: 48px;
 }
 .information {
     display: none;
@@ -257,7 +263,11 @@ li font+font {
     text-decoration: line-through;
     color: #484848;
 }
-.highlit {
+.highlit, .excitement li:hover  {
+    border: solid 1px #ee4819;
+    border-radius: 5px;
+}
+.half-highlit {
     border: solid 1px #e8e822;
     border-radius: 5px;
 }
